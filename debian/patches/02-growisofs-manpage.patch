@@ -1,0 +1,11 @@
+Author: Daniel Baumann <daniel@debian.org>
+Description: Fix manpage section
+
+--- a/growisofs.1
++++ b/growisofs.1
+@@ -1,4 +1,4 @@
+-.TH GROWISOFS 1m "1 Mar 2008" "growisofs 7.1"
++.TH GROWISOFS 1 "1 Mar 2008" "growisofs 7.1"
+ .SH NAME
+ growisofs \- combined mkisofs frontend/DVD recording program.
+ .SH SYNOPSIS

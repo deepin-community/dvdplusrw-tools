@@ -1,0 +1,60 @@
+Source: dvd+rw-tools
+Section: video
+Priority: optional
+Maintainer: Optical Media Tools Team <pkg-opt-media-team@lists.alioth.debian.org>
+Uploaders:
+ TANIGUCHI Takaki <takaki@debian.org>,
+ Rogério Brito <rbrito@ime.usp.br>,
+ Michael Vogt <mvo@debian.org>
+Build-Depends:
+ debhelper (>= 11),
+ libcam-dev [kfreebsd-any],
+ m4
+Standards-Version: 4.2.1
+Vcs-Browser: https://salsa.debian.org/optical-media-team/dvd-rw-tools
+Vcs-Git: https://salsa.debian.org/optical-media-team/dvd-rw-tools.git
+Homepage: http://fy.chalmers.se/~appro/linux/DVD+RW/
+
+Package: growisofs
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends}
+Breaks:
+ dvd+rw-tools (<< 7.1-9)
+Replaces:
+ dvd+rw-tools (<< 7.1-9)
+Description: DVD+-RW/R recorder
+ growisofs is a general purpose DVD recording program that supports:
+ .
+  * random-access media (DVD+RW, DVD-RAM, plain files, hard disk partitions)
+  * mastering multisession DVD media (DVD+R, DVD-R/-RW, and Blu-ray Disc)
+  * first-/single-session recording of arbitrary pre-mastered image
+    (formatted as UDF, ISO9660 or any other file system, if formatted at
+    all) to all supported DVD media types.
+ .
+ growisofs is able to either write pre-created ISO images or create them
+ on-the-fly (by calling genisoimage).
+ .
+ This package also contains dvd+rw-format, a utility to format a DVD+RW media.
+
+Package: dvd+rw-tools
+Architecture: any
+Depends:
+ genisoimage,
+ growisofs (>= 7.1-9),
+ ${misc:Depends},
+ ${shlibs:Depends}
+Suggests:
+ cdrskin
+Description: DVD+-RW/R tools
+ The dvd+rw-tools suite makes it possible to burn DVD images created by
+ dvdauthor or genisoimage to DVD+R, DVD+RW, DVD-R, and DVD-RW disks,
+ replacing cdrecord-proDVD in many cases.
+ .
+ This package contains dvd+rw-mediainfo (to give details about DVD
+ disks), and some programs to control the write speed and obtain
+ information from DVD-RAM.
+ .
+ Additionally, it depends on the growisofs package to provide the main
+ front-end for burning DVD-like media.

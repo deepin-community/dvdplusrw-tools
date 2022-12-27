@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	CFLAGS="$(CFLAGS)" dh_auto_build -- WARN=-DI_KNOW_ALL_ABOUT_SUDO
+	CFLAGS="$(CFLAGS)" dh_auto_build -- +btcflash
+	CFLAGS="$(CFLAGS)" dh_auto_build -- rpl8
+	sed -n "/^%changelog$$/,$$ p" dvd+rw-tools.spec > ChangeLog
+	dh_auto_build
+
+override_dh_auto_install:
+	$(MAKE) install prefix=$(CURDIR)/debian/tmp/usr
+
+override_dh_strip:
+	dh_strip --dbgsym-migration='dvd+rw-tools-dbg (<= 7.1-13)'

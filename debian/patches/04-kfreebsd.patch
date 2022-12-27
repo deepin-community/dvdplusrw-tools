@@ -1,0 +1,71 @@
+Author: Petr Salinger <Petr.Salinger@seznam.cz>
+Description: FTBFS on GNU/kFreeBSD (Closes: #374841).
+
+--- a/Makefile.m4
++++ b/Makefile.m4
+@@ -14,6 +14,7 @@
+ ifelse(OS,NetBSD,[define([OS],[BSD])CXXFLAGS+=-D__unix])
+ ifelse(OS,OpenBSD,[define([OS],[BSD])])
+ ifelse(OS,FreeBSD,[define([OS],[BSD])LDLIBS=-lcam])
++ifelse(OS,GNU/kFreeBSD,[define([OS],[Linux])LDLIBS=-lcam])
+ ifelse(OS,IRIX64,[define([OS],[IRIX])])
+ 
+ ifelse(OS,Darwin,[
+@@ -188,7 +189,7 @@
+ CFLAGS	+=$(WARN) -O2 -D_REENTRANT
+ CXX	=g++
+ CXXFLAGS+=$(WARN) -O2 -fno-exceptions -D_REENTRANT
+-LDLIBS	=-lpthread
++LDLIBS	+=-lpthread
+ LINK.o	=$(LINK.cc)
+ 
+ prefix?=/usr/local
+--- a/growisofs.c
++++ b/growisofs.c
+@@ -403,7 +403,7 @@
+ #define _LARGEFILE64_SOURCE
+ #define _FILE_OFFSET_BITS 64
+ 
+-#if defined(__linux)
++#if defined(__linux) || defined(__GLIBC__)
+ /* ... and "engage" glibc large file support */
+ # ifndef _GNU_SOURCE
+ #  define _GNU_SOURCE
+@@ -459,7 +459,7 @@
+ # define FATAL_START(e)	(0x80|(e))
+ # define FATAL_MASK	 0x7F
+ 
+-#ifdef __FreeBSD__
++#if defined (__FreeBSD__) || defined (__FreeBSD_kernel__)
+ # include <sys/syscall.h>
+ # ifndef SYS_mlockall
+ #  define SYS_mlockall 324
+@@ -995,7 +995,7 @@
+     goto open_rw;
+ }
+ 
+-#elif defined(__FreeBSD__)
++#elif defined(__FreeBSD__) || defined (__FreeBSD_kernel__)
+ 
+ #include <sys/cdio.h>
+ #include <camlib.h>
+@@ -2937,7 +2937,7 @@
+ 	    if (setrlimit(RLIMIT_MEMLOCK,&rlim)) break;
+ 	}
+ # endif
+-# ifdef __FreeBSD__
++# if defined (__FreeBSD__) || defined (__FreeBSD_kernel__)
+ 	syscall(SYS_mlockall,3);
+ # else
+ 	mlockall(MCL_CURRENT|MCL_FUTURE);
+--- a/transport.hxx
++++ b/transport.hxx
+@@ -483,7 +483,7 @@
+     {	return 1;   }
+ };
+ 
+-#elif defined(__FreeBSD__)
++#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+ 
+ #include <sys/ioctl.h>
+ #include <camlib.h>

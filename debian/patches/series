@@ -1,0 +1,13 @@
+01-growisofs-pioneer.patch
+02-growisofs-manpage.patch
+03-growisofs-dvd-dl.patch
+04-kfreebsd.patch
+05-beeping.patch
+06-cdrkit-code.patch
+07-cdrkit-doc.patch
+08-includes.patch
+09-wctomb.patch
+ignore_pseudo_overwrite.patch
+10-blue-ray-bug713016.patch
+fix_burning_bd-r_discs.patch
+glibc-2.28.patch
